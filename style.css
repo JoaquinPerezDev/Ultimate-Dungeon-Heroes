@@ -1,0 +1,22 @@
+body {
+    background-color: #4524b3;
+    background: 
+}
+
+#title-container {
+    background-color: #d68d0f;
+    justify-content: center;
+    border: 
+  }
+   
+  h1 {
+    text-align: center;
+    color: black;
+  }
+   
+  .container {
+      display: flex;
+    width: 400px;
+    margin: 50px auto;
+    justify-content: center;
+  }
