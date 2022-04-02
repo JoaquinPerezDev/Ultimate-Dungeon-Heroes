@@ -1,17 +1,21 @@
 body {
     background-color: #4524b3;
-    background: 
+    background: url('UDH background.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'UnifrakturCook', cursive;
 }
 
 #title-container {
-    background-color: #d68d0f;
+    background-image: linear-gradient(180deg, #d68d0f, black);
     justify-content: center;
-    border: 
+    border-radius: 50%; 
   }
    
   h1 {
     text-align: center;
-    color: black;
+    color: #d6cbab;
+    font-size: 48px;
   }
    
   .container {
@@ -19,4 +23,9 @@ body {
     width: 400px;
     margin: 50px auto;
     justify-content: center;
+  }
+
+  #button {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 24px;
   }

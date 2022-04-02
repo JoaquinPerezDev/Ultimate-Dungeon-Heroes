@@ -42,6 +42,7 @@ class Deck {
     }
 
     createDeck() {
+        
         /* This function will create a new deck, 
         comprised of a combination of our cards, when the game is initialized. */
 
