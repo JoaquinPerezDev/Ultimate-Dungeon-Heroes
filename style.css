@@ -1,3 +1,4 @@
+
 body {
     background-color: #4524b3;
     background: url('UDH background.jpeg');
@@ -19,7 +20,7 @@ body {
   }
    
   .container {
-      display: flex;
+    display: flex;
     width: 400px;
     margin: 50px auto;
     justify-content: center;
@@ -28,4 +29,5 @@ body {
   #button {
     font-family: 'UnifrakturCook', cursive;
     font-size: 24px;
+    border-radius: 20%;
   }
