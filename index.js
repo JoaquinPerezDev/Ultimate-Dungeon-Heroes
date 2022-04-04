@@ -37,12 +37,20 @@ class Character {
 }
 
 class Card {
-    constructor(name, strength, block, cardNumber, type) {
+    constructor(name, strength, block, cardNumber, type, position) {
+        this.position = position;
         this.name = name;
         this.strength = strength;
         this.block = block;
         this.cardNumber = cardNumber;
         this.type = type;
+        this.width = 100;
+        this.height = 150;
+    }
+    
+    draw() {
+        ctx.fillStyle = 'white';
+        ctx.fillRect (this.position.x, this.position.y, this.width, this.height);
     }
 
     attack() {
@@ -55,6 +63,56 @@ class Card {
 
 
 }
+
+class Level {
+    //We will likely need to create a level class to shift the entire screen from 
+    //map to level back to map to go to the next level and so on.
+    //reviewing the chronometer lab, we can create multiple levels that will draw our background, 
+    //characters, etc. on the screen, as the game begins
+}
+
+
+//Our attack and block cards! These will be the most basic example of cards
+//found in the game. Later on these can be extended to other types.
+
+class AttackCard extends Card {
+    constructor(name, strength, cardNumber, type, position) {
+        super(name, strength, cardNumber, type)
+        this.position = position;
+        this.strength = 6;
+        this.width = 100;
+        this.height = 150;
+    }
+    
+    draw() {
+        ctx.fillStyle = 'white';
+        ctx.fillRect (this.position.x, this.position.y, this.width, this.height);
+    }
+
+    attack() {
+        return this.strength;
+
+    }
+}
+class BlockCard extends Card {
+constructor(name, block, cardNumber, type, position) {
+    super(name, block, cardNumber, type) 
+    this.position = position;
+    this.block = 4;
+    this.width = 100;
+    this.height = 150;
+}
+
+draw() {
+    ctx.fillStyle = 'white';
+    ctx.fillRect (this.position.x, this.position.y, this.width, this.height);
+}
+
+block() {
+    return this.block;
+}
+}
+
 
 /* our hero character */
 class Hero extends Character {
@@ -71,6 +129,12 @@ class Hero extends Character {
 
     attack() {
         return this.strength;
+        this.energy - 1;
+    }
+
+    block() {
+        return this.armor;
+        this.energy - 1;
     }
 
     receiveDamage(damage) {
@@ -83,23 +147,15 @@ class Hero extends Character {
     }
 
 }
+//Our hero!
+const player = new Hero({x: 250, y: 150}, 'player', 30, 5, 0, 3)
 
-const player = new Hero({
-    x: 250,
-    y: 250,
-    name: 'player',
-    health: 30,
-    strength: 5,
-    armor: 0,
-    energy: 3
-})
-
-
-
+//our enemies! This can be further extended into different kinds. 
+//Once we can functionally play through one level/set of enemies and succeed in win/losing.
 
 class Enemy extends Character {
-    constructor(name, health, strength, position, armor) {
-        super(name, health, strength, position, armor)
+    constructor(position, name, health, strength, armor) {
+        super(position, name, health, strength, armor)
         this.name = name;
         this.width = 50;
         this.height = 100;
@@ -130,112 +186,41 @@ class Enemy extends Character {
         this.armor += 2;
     }
 
+    enrage() {
+        this.strength += 2;
+    }
+
 }
 
-const skeleton1 = new Enemy({
-    x: 800,
-    y: 300,
-    name: 'skeleton',
-    health: 22, 
-    strength: 3,
-    armor: 0,
-})
+//our skeleton badies
+const skeleton1 = new Enemy({x: 700, y: 200}, 'skeleton', 22, 3, 0)
 
-const skeleton2 = new Enemy({
-    x: 600,
-    y: 300,
-    name: 'skeleton',
-    health: 22, 
-    strength: 3,
-    armor: 0,
-})
-
-class AttackCard extends Card {
-    constructor(name, strength, cardNumber, type) {
-        super(name, strength, cardNumber, type)
-        this.strength = 6;
-    }
-
-    attack() {
-        return this.strength;
-    }
-}
-
-class BlockCard extends Card {
-    constructor(name, block, cardNumber, type) {
-        super(name, block, cardNumber, type) 
-        this.block = 4;
-    }
-
-    block() {
-        return this.block;
-    }
-}
+const skeleton2 = new Enemy({x: 800, y: 200}, 'skeleton', 22, 3, 0)
 
 
-const attack1 = new AttackCard ({
-    name: 'Slide & dice!',
-    strength: 5,
-    cardNumber: 1,
-    type: 'attack'
-})
+//the cards that comprise our deck! I have included multiples of each to account
+//for every single card included in the starting deck. This may change once
+//I can figure out how to create more efficient code.
+//                               name, strength, cardNumber, type, position
+const attack1 = new AttackCard ('Slice & dice!', 6, 1, 'attack', {x: 450, y:400})
 
-const attack2 = new AttackCard ({
-    name: 'Slide & dice!',
-    strength: 5,
-    cardNumber: 2,
-    type: 'attack'
-})
+const attack2 = new AttackCard ('Slice & dice!', 6, 2, 'attack', {x: 450, y:400})
 
-const attack3 = new AttackCard ({
-    name: 'Slide & dice!',
-    strength: 5,
-    cardNumber: 3,
-    type: 'attack'
-})
+const attack3 = new AttackCard ('Slice & dice!', 6, 3, 'attack', {x: 450, y:400})
 
-const attack4 = new AttackCard ({
-    name: 'Slide & dice!',
-    strength: 5,
-    cardNumber: 4,
-    type: 'attack'
-})
+const attack4 = new AttackCard ('Slice & dice!', 6, 4, 'attack', {x: 450, y:400})
 
-const attack5 = new AttackCard ({
-    name: 'Slide & dice!',
-    cardNumber: 5,
-    type: 'attack'
-})
+const attack5 = new AttackCard ('Slice & dice!', 6, 5, 'attack', {x: 450, y:400})
 
-const attack6 = new AttackCard ({
-    name: 'Slide & dice!',
-    cardNumber: 6,
-    type: 'attack'
-})
+const attack6 = new AttackCard ('Slice & dice!', 6, 6, 'attack', {x: 450, y:400})
 
-const block1 = new BlockCard ({
-    name: 'Slide & dice!',
-    cardNumber: 1,
-    type: 'block'
-})
+const block1 = new BlockCard ('Suit up!', 4, 7, 'attack', {x: 450, y:400})
 
-const block2 = new BlockCard ({
-    name: 'Wise up!',
-    cardNumber: 2,
-    type: 'block'
-})
+const block2 = new BlockCard ('Suit up!', 4, 8, 'attack', {x: 450, y:400})
 
-const block3 = new BlockCard ({
-    name: 'Wise up!',
-    cardNumber: 3,
-    type: 'block'
-})
+const block3 = new BlockCard ('Suit up!', 4, 9, 'attack', {x: 450, y:400})
 
-const block4 = new BlockCard ({
-    name: 'Wise up!',
-    cardNumber: 4,
-    type: 'block'
-})
+const block4 = new BlockCard ('Suit up!', 4, 10, 'attack', {x: 450, y:400})
 
 
 
@@ -263,12 +248,21 @@ class Deck {
     }
 
     shuffleDeck() {
-
+        let shuffle;
+        for (let i = 0; i < this.cards.length; i++) {
+            shuffle = Math.floor((Math.random() * this.cards.length));
+            return shuffle;
         /* This function will shuffle the deck anytime we start a new level, 
         based on an event listener 'click' on 'new level' */
     }
 
+}
+
     drawCards() {
+        this.shuffleDeck()
+        for(let i = 0; i < this.cards.length;i++) {
+            
+        }
         /* This function will draw our */
     }
 }
@@ -276,6 +270,8 @@ class Deck {
 const newDeck = new Deck();
 
 newDeck.createDeck();
+
+newDeck.shuffleDeck()
 console.log(newDeck)
 
 player.draw()

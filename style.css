@@ -26,8 +26,13 @@ body {
     justify-content: center;
   }
 
-  #button {
+  #start-game-button {
     font-family: 'UnifrakturCook', cursive;
     font-size: 24px;
     border-radius: 20%;
   }
+
+ #game-area {
+   background-image: url('Dungeon\ background.jpeg');
+   background-size: cover;
+ }
