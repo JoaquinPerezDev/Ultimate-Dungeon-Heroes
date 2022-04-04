@@ -33,6 +33,6 @@ body {
   }
 
  #game-area {
-   background-image: url('Dungeon\ background.jpeg');
+   background-image: white;
    background-size: cover;
  }

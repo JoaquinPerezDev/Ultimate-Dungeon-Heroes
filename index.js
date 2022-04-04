@@ -5,7 +5,26 @@ canvas.width = 1024
 canvas.height = 576
 
 ctx.fillRect(0, 0, canvas.width, canvas.height)
-
+ctx.fillStyle = 'white';
+ctx.fillText('PRELIMINARY UI PLACEMENT LEGEND', 50, 50)
+ctx.fillText('ULTIMATE DUNGEON HERO ATTEMPT #1', 415, 50)
+ctx.fillText('Preliminary battle screen', 450, 100)
+ctx.fillText('Hero', 250, 325)
+ctx.fillText('hero health bar', 250, 375)
+ctx.fillText('hero energy', 250, 400)
+ctx.fillText('enemies', 775, 325)
+ctx.fillText('enemy 1 turn intention', 700, 175)
+ctx.fillText('enemy 2 turn intention', 850, 175)
+ctx.fillText('enemy 1 health bar', 700, 375)
+ctx.fillText('enemy 2 health bar', 850, 375)
+ctx.fillText('deck pile icon', 75, 475)
+ctx.fillText('card1', 250, 500)
+ctx.fillText('card2', 350, 500)
+ctx.fillText('card3', 450, 500)
+ctx.fillText('card4', 550, 500)
+ctx.fillText('card5', 650, 500)
+ctx.fillText('discard pile icon', 75, 525)
+ctx.fillText('end turn button', 875, 525)
 
 //Create character class, which will then extend to hero and enemies. 
 
@@ -195,7 +214,7 @@ class Enemy extends Character {
 //our skeleton badies
 const skeleton1 = new Enemy({x: 700, y: 200}, 'skeleton', 22, 3, 0)
 
-const skeleton2 = new Enemy({x: 800, y: 200}, 'skeleton', 22, 3, 0)
+const skeleton2 = new Enemy({x: 850, y: 200}, 'skeleton', 22, 3, 0)
 
 
 //the cards that comprise our deck! I have included multiples of each to account
