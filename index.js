@@ -29,7 +29,8 @@ ctx.fillText('end turn button', 875, 525)
 //Create character class, which will then extend to hero and enemies. 
 
 class Character {
-    constructor(position, health, strength, armor) {
+    constructor(name, position, health, strength, armor) {
+        this.name = name;
         this.position = position;
         this.width = 50;
         this.height = 150;
@@ -56,13 +57,11 @@ class Character {
 }
 
 class Card {
-    constructor(name, strength, block, cardNumber, type, position) {
-        this.position = position;
+    constructor(name, cardNumber, type, position) {
         this.name = name;
-        this.strength = strength;
-        this.block = block;
         this.cardNumber = cardNumber;
         this.type = type;
+        this.position = position;
         this.width = 100;
         this.height = 150;
     }
@@ -71,15 +70,6 @@ class Card {
         ctx.fillStyle = 'white';
         ctx.fillRect (this.position.x, this.position.y, this.width, this.height);
     }
-
-    attack() {
-        return this.strength;
-    }
-
-    block() {
-        return this.block;
-    }
-
 
 }
 
@@ -96,9 +86,9 @@ class Level {
 
 class AttackCard extends Card {
     constructor(name, strength, cardNumber, type, position) {
-        super(name, strength, cardNumber, type)
+        super(name, cardNumber, type, position)
         this.position = position;
-        this.strength = 6;
+        this.strength = strength;
         this.width = 100;
         this.height = 150;
     }
@@ -115,9 +105,9 @@ class AttackCard extends Card {
 }
 class BlockCard extends Card {
 constructor(name, block, cardNumber, type, position) {
-    super(name, block, cardNumber, type) 
+    super(name, cardNumber, type, position) 
     this.position = position;
-    this.block = 4;
+    this.block = block;
     this.width = 100;
     this.height = 150;
 }
@@ -135,9 +125,8 @@ block() {
 
 /* our hero character */
 class Hero extends Character {
-    constructor(position, name, health, strength, armor, energy) {
-        super(position, health, strength, armor, energy)
-        this.name = name;
+    constructor(name, position, health, strength, armor, energy) {
+        super(name, position, health, strength, armor, energy)
         this.energy = energy;
     }
 
@@ -167,14 +156,14 @@ class Hero extends Character {
 
 }
 //Our hero!
-const player = new Hero({x: 250, y: 150}, 'player', 30, 5, 0, 3)
+const player = new Hero('player', {x: 250, y: 150}, 30, 5, 0, 3)
 
 //our enemies! This can be further extended into different kinds. 
 //Once we can functionally play through one level/set of enemies and succeed in win/losing.
 
 class Enemy extends Character {
-    constructor(position, name, health, strength, armor) {
-        super(position, name, health, strength, armor)
+    constructor(name, position, health, strength, armor) {
+        super(name, position, health, strength, armor)
         this.name = name;
         this.width = 50;
         this.height = 100;
@@ -212,9 +201,9 @@ class Enemy extends Character {
 }
 
 //our skeleton badies
-const skeleton1 = new Enemy({x: 700, y: 200}, 'skeleton', 22, 3, 0)
+const skeleton1 = new Enemy('skeleton', {x: 700, y: 200}, 22, 3, 0)
 
-const skeleton2 = new Enemy({x: 850, y: 200}, 'skeleton', 22, 3, 0)
+const skeleton2 = new Enemy('skeleton', {x: 850, y: 200}, 22, 3, 0)
 
 
 //the cards that comprise our deck! I have included multiples of each to account
