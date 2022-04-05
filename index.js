@@ -49,19 +49,13 @@ class Character {
         return this.strength;
     }
 
+    useAttackCard() {
+        return this.strength;
+    }
+
     receiveDamage(damage) {
         this.health = this.health - damage;
     }
-
-    pullCardFromDeck() {
-        //take from the deck. All children will have a deck
-    }
-
-    useCard(cardToPlay) {
-        
-    }
-
-
 }
 
 class Card {
@@ -97,10 +91,6 @@ class AttackCard extends Card {
         this.strength = strength;
         this.type = 'attack';
     }
-    
-    use() {
-        return this.strength;
-    }
 
     draw(x, y) {
         ctx.fillStyle = 'white';
@@ -115,7 +105,7 @@ class BlockCard extends Card {
         this.type = 'block';
     }
 
-    use() {
+    useBlockCard() {
         return this.block;
     }
 
@@ -128,9 +118,12 @@ class BlockCard extends Card {
 
 /* our hero character */
 class Hero extends Character {
-    constructor(name, position, health, strength, armor, energy, deck) {
+    constructor(name, position, health, strength, armor, energy, deck, block) {
         super(name, position, health, strength, armor, deck)
         this.energy = energy;
+        this.discardPile = [];
+        this.hand = [];
+        this.block = block;
     }
 
     draw() {
@@ -138,23 +131,49 @@ class Hero extends Character {
         ctx.fillRect (this.position.x, this.position.y, 50, 150);
     }
 
-    attack() {
-        return this.strength;
-        this.energy - 1;
+    gainsBlock(block) {
+        this.health = this.health + block;
+        if(this.health >= 30) {
+            return `${this.Hero.name} is becoming an impenetrable human fortress!` 
+        } else {
+            return `suit up or shut up! ${this.Hero.name} gains ${block} points of armor`
+        }
     }
 
-    block() {
-        return this.armor;
-        this.energy - 1;
-    }
 
     receiveDamage(damage) {
         this.health = this.health - damage;
         if(this.health <= 0) {
-            return `${this.name} has perished attempting to become an Ultimate Dungeon Hero`
+            return `The fates predicted ${this.Hero.name} would not become the Ultimate Dungeon Hero`
         } else {
-            return `${this.name} has been attacked for ${damage} damage!`
+            return `Not the face! ${this.Hero.name} takes ${damage} points of damage`
         }
+    }
+
+    chooseCardFromHand(cardIndexInHand) {
+        return this.hand.splice(cardIndexInHand, 1)[0];
+    }
+
+    useCard(card) {
+        //apply card's effect here. 
+        console.log('apply card\'s effect and subtract energy from hero', card)
+        // if(card === Hero.deck.AttackCard) {
+        //     this.Enemy.receiveDamage(this.AttackCard.strength);
+        // } else {
+        //     this.Hero.gainsBlock(this.BlockCard.block);
+        // }
+        this.energy--; //this.energy -= this.cardEnergy;
+        this.discardPile.push(card);
+
+    }
+
+    endTurn() {
+       let remainingHand = this.hand.splice(0, this.hand.length);
+        this.discardPile.push(...remainingHand);
+        if(this.deck.length === 0) {
+            this.deck.push(this.discardPile);
+        }
+        this.energy = 3;
     }
 
 }
@@ -163,8 +182,11 @@ class Hero extends Character {
 //Once we can functionally play through one level/set of enemies and succeed in win/losing.
 
 class Enemy extends Character {
-    constructor(name, position, health, strength, armor, deck) {
+    constructor(name, position, health, strength, armor, deck, block) {
         super(name, position, health, strength, armor, deck)
+        this.block = block;
+        this.hand = [];
+        this.discardPile = [];
     }
 
     draw() {
@@ -172,18 +194,49 @@ class Enemy extends Character {
         ctx.fillRect (this.position.x, this.position.y, 50, 100);
     }
 
-    attack() {
-        return this.strength;
+    chooseCardFromHand(cardIndexInHand) {
+        return this.hand.splice(cardIndexInHand, 1)[0];
+    }
+
+    useCard(card) {
+        //apply card's effect here. 
+        console.log('apply card\'s effect and subtract energy from hero', card)
+        // if(card === Hero.deck.AttackCard) {
+        //     this.Enemy.receiveDamage(this.AttackCard.strength);
+        // } else {
+        //     this.Hero.gainsBlock(this.BlockCard.block);
+        // }
+        this.energy--; //this.energy -= this.cardEnergy;
+        this.discardPile.push(card);
+
     }
 
     receiveDamage(damage) {
         this.health = this.health - damage;
         if(this.health <= 0) {
-            return `our hero has slain the ${this.name}, you may advance`
+            return `our hero has slain the ${this.name}, onward!`
         } else {
-            return `${this.name} has been attacked for ${damage} damage!`
+            return `${this.Enemy.name} has been attacked for ${damage} damage!`
         }
     }
+    
+    gainsBlock(block) {
+        this.health = this.health + block;
+        if(this.health >= 30) {
+            return `What are you doing ${this.Hero.name}? ${this.Enemy.name} is near invincible!` 
+        } else {
+            return `${this.Enemy.name} is plotting your demise!`
+        }
+    }
+
+    endTurn() {
+        let remainingHand = this.hand.splice(0, this.hand.length);
+         this.discardPile.push(...remainingHand);
+         if(this.deck.length === 0) {
+            this.deck.push(this.discardPile);
+            console.log('the deck has been refilled!');
+        }
+     }
 /* the below methods will be attached to other card extensions once the battle system has been figured out 
     increaseArmor() {
         this.armor += 2;
@@ -258,12 +311,14 @@ class Deck {
         }
       
         return newShuffledCardsArray;
-        console.log(newShuffledCardsArray)
       }
+
+      /* variation of code of the Fisher-Yates Shuffle. */
         /* This function will shuffle the deck anytime we start a new level, 
         based on an event listener 'click' on 'new level' */
 
     pullCardFromDeck(numberOfCards) {
+
         let cardsDrawnArray = [];
         for(let i = 0; i < numberOfCards; i++){
             cardsDrawnArray.push(this.cards.shift())
@@ -273,51 +328,52 @@ class Deck {
   
 }
 
-class EnemyDeck extends Deck {
-    //    constructor() {
-    //     this.cardArray = [
-    //         attack1, 
-    //         block1
-    //     ];
+// class EnemyDeck extends Deck {
+//        constructor() {
+//         this.cards = [
+//             attack1, 
+//             block1
+//         ];
+//     }
+    
+//     createDeck() {
+//       return this.cards;   
+//         /* This function will create a new deck, 
+//         comprised of a combination of our cards, when the game is initialized. */
+//     }
 
-    createDeck() {
-      return this.cards;   
-        /* This function will create a new deck, 
-        comprised of a combination of our cards, when the game is initialized. */
-    }
-
-    shuffleDeck () {
-        let newShuffledCardsArray = this.cards;
-        let currentIndex = newShuffledCardsArray.length,  randomIndex;
+//     shuffleDeck () {
+//         let newShuffledCardsArray = this.cards;
+//         let currentIndex = newShuffledCardsArray.length,  randomIndex;
       
-        // While there remain elements to shuffle...
-        while (currentIndex != 0) {
+//         // While there remain elements to shuffle...
+//         while (currentIndex != 0) {
       
-          // Pick a remaining element...
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex--;
+//           // Pick a remaining element...
+//           randomIndex = Math.floor(Math.random() * currentIndex);
+//           currentIndex--;
       
-          // And swap it with the current element.
-          [newShuffledCardsArray[currentIndex], 
-           newShuffledCardsArray[randomIndex]] =
-          [newShuffledCardsArray[randomIndex], 
-           newShuffledCardsArray[currentIndex]];
-        }
+//           // And swap it with the current element.
+//           [newShuffledCardsArray[currentIndex], 
+//            newShuffledCardsArray[randomIndex]] =
+//           [newShuffledCardsArray[randomIndex], 
+//            newShuffledCardsArray[currentIndex]];
+//         }
       
-        return newShuffledCardsArray;
-        console.log(newShuffledCardsArray)
-      }
-    // shuffleDeck() {
-    //     let shuffle;
-    //     let newShuffledCardsArray = this.cards;
-    //     for (let i = 0; i < this.cards.length; i++) {
-    //         shuffle = Math.floor((Math.random() * this.cards.length));
-    //         return shuffle;
-    //     /* This function will shuffle the deck anytime we start a new level, 
-    //     based on an event listener 'click' on 'new level' */
-    //     }
-    // }
-}
+//         return newShuffledCardsArray;
+//         console.log(newShuffledCardsArray)
+//       }
+//     // shuffleDeck() {
+//     //     let shuffle;
+//     //     let newShuffledCardsArray = this.cards;
+//     //     for (let i = 0; i < this.cards.length; i++) {
+//     //         shuffle = Math.floor((Math.random() * this.cards.length));
+//     //         return shuffle;
+//     //     /* This function will shuffle the deck anytime we start a new level, 
+//     //     based on an event listener 'click' on 'new level' */
+//     //     }
+//     // }
+// }
 
 //1. create 2 decks, 1 enemy and 1 hero. the enemy should have its own deck, 
 //the hero should have its own deck(in its constructor).
@@ -333,6 +389,8 @@ class Battle {
 constructor(hero, enemy) {
     this.Hero = hero;
     this.Enemy = enemy;
+    this.Hero.deck.shuffleDeck();
+    this.Enemy.deck.shuffleDeck();
 }
 // addHero() {
 //     return this.player;
@@ -343,37 +401,68 @@ constructor(hero, enemy) {
 // }
 
 activateHeroTurn() {
-    this.Hero.deck.shuffleDeck();
+    console.log(`prepare yourself for battle, Hero!`)
     this.Hero.hand = this.Hero.deck.pullCardFromDeck(5);
-    console.log(this.Hero.deck.pullCardFromDeck(5))
+    console.log(this.Hero.hand);
+    let chosenCard = this.Hero.chooseCardFromHand(3);
+    console.log(this.Hero.hand, chosenCard, this.Hero.energy);
+    this.Hero.useCard(chosenCard);
+    console.log(this.Hero.hand, this.Hero.discardPile, this.Hero.energy);
+    chosenCard = this.Hero.chooseCardFromHand(1); 
+    this.Hero.useCard(chosenCard);
+    console.log(this.Hero.hand, this.Hero.discardPile, this.Hero.energy); 
+    chosenCard = this.Hero.chooseCardFromHand(2);
+    this.Hero.useCard(chosenCard);
+    console.log(this.Hero.hand, this.Hero.discardPile, this.Hero.energy); 
+    this.Hero.endTurn();
+    console.log(this.Hero.hand, this.Hero.discardPile);
 
 /* add eventListener 'mousedown'  to activate card[i] relative to where the cards 
 are positioned on screen. */
     /* add conditional to 'mousedown' on "End Turn" button that starts enemyTurn() 
     */
-
 }
 
 activateEnemyTurn() {
-    this.Enemy.deck.shuffleDeck();
+    console.log(`it is the enemy's turn to act!`)
+   this.Enemy.deck.shuffleDeck();
    this.Enemy.hand = this.Enemy.deck.pullCardFromDeck(3);
-   console.log(this.Enemy.deck.pullCardFromDeck(3))
+   console.log(this.Enemy.hand)
+   //
+   let chosenEnemyCard = this.Enemy.chooseCardFromHand(Math.floor(Math.random() * this.Enemy.hand));
+   console.log(this.Enemy.hand, chosenEnemyCard);
+   this.Enemy.useCard(chosenEnemyCard);
+   this.Enemy.endTurn();
+   console.log(this.Enemy.hand, this.Enemy.discardPile);
+
+
 /* add conditional to enemyTurn that ends the turn 
 once skeleton has played 1 Card from EnemyDeck. 
 */
+
 }
+
 }
 
 //Our hero!
-const player = new Hero('player', {x: 250, y: 150}, 30, 6, 0, 3, new Deck())
+const player = new Hero('player', {x: 250, y: 150}, 30, 6, 0, 3, new Deck(), 0)
 
 //our skeleton baddies
-const skeleton1 = new Enemy('skeleton', {x: 700, y: 200}, 22, 3, 0, new EnemyDeck())
+const skeleton1 = new Enemy('skeleton', {x: 700, y: 200}, 22, 3, 0, new Deck(), 0)
 
-const skeleton2 = new Enemy('skeleton', {x: 850, y: 200}, 19, 4, 0, new EnemyDeck())
+const skeleton2 = new Enemy('skeleton', {x: 850, y: 200}, 19, 4, 0, new Deck(), 0)
 
 
-new Battle(player, skeleton1);
+let newBattle = new Battle(player, skeleton1);
+// newBattle.activateHeroTurn();
+// newBattle.activateHeroTurn();
+console.log(newBattle.activateHeroTurn());
+console.log(newBattle.activateEnemyTurn());
+console.log(newBattle.activateHeroTurn());
+console.log(newBattle.activateEnemyTurn());
+console.log(newBattle.activateHeroTurn());
+console.log(newBattle.activateEnemyTurn());
+
 
 //1. create 2 decks, 1 enemy and 1 hero. the enemy should have its own deck, 
 //the hero should have its own deck(in its constructor).
