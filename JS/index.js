@@ -4,28 +4,6 @@ const ctx = canvas.getContext('2d');
 canvas.width = 1024
 canvas.height = 576
 
-ctx.fillRect(0, 0, canvas.width, canvas.height)
-ctx.fillStyle = 'white';
-ctx.fillText('PRELIMINARY UI PLACEMENT LEGEND', 50, 50)
-ctx.fillText('ULTIMATE DUNGEON HERO ATTEMPT #1', 415, 50)
-ctx.fillText('Preliminary battle screen', 450, 100)
-ctx.fillText('Hero', 250, 325)
-ctx.fillText('hero health bar', 250, 375)
-ctx.fillText('hero energy', 250, 400)
-ctx.fillText('enemies', 775, 325)
-ctx.fillText('enemy 1 turn intention', 700, 175)
-ctx.fillText('enemy 2 turn intention', 850, 175)
-ctx.fillText('enemy 1 health bar', 700, 375)
-ctx.fillText('enemy 2 health bar', 850, 375)
-ctx.fillText('deck pile icon', 75, 475)
-ctx.fillText('card1', 250, 500)
-ctx.fillText('card2', 350, 500)
-ctx.fillText('card3', 450, 500)
-ctx.fillText('card4', 550, 500)
-ctx.fillText('card5', 650, 500)
-ctx.fillText('discard pile icon', 75, 525)
-ctx.fillText('end turn button', 875, 525)
-
 //Create character class, which will then extend to hero and enemies. 
 
 class Character {
@@ -77,6 +55,7 @@ class Character {
     }
 }
 
+
 class Card {
     constructor(name) {
         this.name = name;
@@ -86,19 +65,11 @@ class Card {
     
     drawCardOnCanvas(x, y) {
         ctx.fillStyle = 'white';
+        // if(hero.deck.card.)
         ctx.fillRect (x, y, this.width, this.height);
     }
 
 }
-// 
-
-class Level {
-    //We will likely need to create a level class to shift the entire screen from 
-    //map to level back to map to go to the next level and so on.
-    //reviewing the chronometer lab, we can create multiple levels that will draw our background, 
-    //characters, etc. on the screen, as the game begins
-}
-
 
 //Our attack and block cards! These will be the most basic example of cards
 //found in the game. Later on these can be extended to other types.
@@ -224,7 +195,8 @@ class Enemy extends Character {
             console.log(`our hero has slain the ${this.name}, onward!`)
         } else {
             console.log(`${this.name} has been attacked for ${damage} damage! ${this.name}'s health is ${this.health}`)
-        }
+        } 
+
     }
     
     gainsBlock(block) {
@@ -427,6 +399,12 @@ constructor(hero, enemy) {
 //     this.Enemy.draw();
 // }
 
+beginBattle() {
+    this.Hero.deck.shuffleDeck();
+    this.Hero.draw();
+    this.Enemy.draw();
+}
+
 activateHeroTurn() {
     console.log(`prepare yourself for battle, Hero!`)
 
@@ -495,10 +473,10 @@ skeleton2.draw()
 newBattle.activateHeroTurn()
 newBattle.activateEnemyTurn()
 
-// newBattle.activateHeroTurn()
-//  newBattle.activateEnemyTurn()
-// newBattle.activateHeroTurn()
-// newBattle.activateEnemyTurn()
+newBattle.activateHeroTurn()
+ newBattle.activateEnemyTurn()
+newBattle.activateHeroTurn()
+newBattle.activateEnemyTurn()
 
 
 //2. for the game loop, first draw cards on screen, draw enemy and player on screen.
@@ -508,3 +486,4 @@ newBattle.activateEnemyTurn()
 //4. create a separate event listener on end turn button, that triggers enemy to randomly select a card of its own and play it. 
 //5. After enemy plays 1 card, end enemy turn. Draw new card from player deck and re-draw all player cards on screen.
 //6. translate canvas dimensions relative to browser dimensions because mouse events are based on browser dimensions.
+
