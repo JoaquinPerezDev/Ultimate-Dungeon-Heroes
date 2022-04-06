@@ -5,34 +5,58 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'UnifrakturCook', cursive;
+    display: flex;
+    flex-direction: column;
 }
 
-#title-container {
-    background-image: linear-gradient(180deg, #d68d0f, black);
-    justify-content: center;
-    border-radius: 50%; 
-  }
-   
+canvas {
+  display: flex;
+  justify-content: center;
+}   
+
   h1 {
     text-align: center;
     color: #d6cbab;
     font-size: 48px;
+    flex-shrink: 0;
+    display: flex;
   }
    
+#title-container {
+  background-image: linear-gradient(180deg, #d68d0f, black);
+  justify-content: center;
+  border-radius: 50%; 
+  display: flex;
+}
   .container {
     display: flex;
     width: 400px;
-    margin: 50px auto;
+    margin: 20px auto;
+    display: flex;
     justify-content: center;
+
   }
 
   #start-game-button {
     font-family: 'UnifrakturCook', cursive;
     font-size: 24px;
     border-radius: 20%;
+    background-color: #8a7171;
+    flex-shrink: 0;
+  }
+
+  #end-turn-button {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 24px;
+    border-radius: 20%;
   }
 
  #game-area {
-   background-image: white;
-   background-size: cover;
+   
+   background-color: #8a7171;
+   font-family: 'UnifrakturCook', cursive;
+ }
+
+ .hidden {
+   display: none;
  }
