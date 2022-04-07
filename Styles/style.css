@@ -55,7 +55,27 @@ canvas {
    
    background-color: #8a7171;
    font-family: 'UnifrakturCook', cursive;
+
  }
+
+ .canvas-container {
+  position: relative;
+  display: flex;
+ }
+
+ .hero-health-bar {
+   background-color: grey;
+   position: absolute;
+   width: 200px;
+   height: 30px;
+ }
+ .enemy-health-bar {
+  background-color: grey;
+  position: absolute;
+  width: 200px;
+  height: 30px;
+  margin-top: 80%;
+}
 
  .hidden {
    display: none;
