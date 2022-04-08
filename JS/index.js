@@ -1,55 +1,52 @@
 const canvas = document.querySelector('canvas');
+
+canvas.width = 576
+canvas.height = 288
+
 const ctx = canvas.getContext('2d');
 
-        canvas.width = 1024
-        canvas.height = 576
+
 
 //Create character class, which will then extend to hero and enemies. 
-const background = new Sprite({
-    position:{
+const background = new Sprite(
+{
     x: 0, 
     y: 0
     },
-    imageSrc: '../assets-ProjectUDH/Environment/ gothicvania patreon collection/Old-dark-Castle-tileset-Files/PNG/old-dark-castle-interior-background.png'
-})
+'./Images/Background/old-dark-castle-interior-background.png',
+ .88,
+ 1,
+ 1,
+ ctx
+)
+//add 
 //create extra new Sprite to add extra layers with animations in the background.
-
+//assets-ProjectUDH/Environment/ gothicvania patreon collection/Old-dark-Castle-tileset-Files/PNG/old-dark-castle-interior-background.png
 
 //the cards that comprise our deck! I have included multiples of each to account
 //for every single card included in the starting deck. This may change once
 //I can figure out how to create more efficient code.
 //                               name, strength, cardNumber
-const attack1 = new AttackCard ('Slice & dice!', 6, 1)
+const attack1 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
 
-const attack2 = new AttackCard ('Slice & dice!', 6, 2)
+const attack2 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
 
-const attack3 = new AttackCard ('Slice & dice!', 6, 3)
+const attack3 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
 
-const attack4 = new AttackCard ('Slice & dice!', 6, 4)
+const attack4 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
 
-const attack5 = new AttackCard ('Slice & dice!', 6, 5)
+const attack5 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
 
-const attack6 = new AttackCard ('Slice & dice!', 6, 6)
+const attack6 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
 
-const block1 = new BlockCard ('Suit up!', 4, 7)
+const block1 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/Block card.png', ctx)
 
-const block2 = new BlockCard ('Suit up!', 4, 8)
+const block2 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/Block card.png', ctx)
 
-const block3 = new BlockCard ('Suit up!', 4, 9)
+const block3 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/Block card.png', ctx)
 
-const block4 = new BlockCard ('Suit up!', 4, 10)
+const block4 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/Block card.png', ctx)
 
-// function animate(){
-//     window.requestAnimationFrame(animate);
-//     ctx.fillStyle = 'black';
-//     ctx.fillRect(0, 0, canvas.width, canvas.height);
-//     background.update();
-//     player.update();
-//     skeleton.update();
-
-// }
-
-// animate()
 //Battle sequence function invoking and event listeners below here
 
 const startGameButton = document.getElementById('start-game-button');
@@ -80,20 +77,51 @@ if (startGameButton) {
 
 
 
-        const player = new Hero({x: 250, y: 200}, 30, 6, 0, 3, new Deck(), 0);
+        const player = new Hero(
+            {x: 105, y: 170}, 
+            30, 
+            6, 
+            0, 
+            3, 
+            new Deck(), 
+            0, 
+            './Images/Knight spritesheets/Knight idle spritesheet.png',
+            1.7, 
+            1.7, 
+            8, 
+            ctx
+        );
+
         //our skeleton baddies
-        const skeleton1 = new Enemy({x: 750, y: 150}, 22, 5, 0, new Deck(), 4);
+        const skeleton1 = new Enemy(
+            {x: 285, y: 110}, 
+            22, 
+            5, 
+            0, 
+            new Deck(), 
+            4,
+            './Images/skeleton spritesheets/skeleton idle spritesheet.png',
+            1.5, 
+            1.5, 
+            8, 
+            ctx
+        );
+
+        function animate(){
+            ctx.requestAnimationFrame(animate);
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            background.update();
+            player.update();
+            skeleton1.update();
+        
+        }
+
         let newBattle = new Battle(player, skeleton1);
-        player.draw();
-        skeleton1.draw();
+        background.draw();
         newBattle.beginBattle();
-        // animate()
-        console.log(`prepare yourself for battle, Hero!`)
-        // player.deck.shuffleDeck();
-        // player.draw();
-        // skeleton1.draw();
-        // newBattle.activateHeroTurn();
-        // newBattle.beginBattle();
+        animate()
+        // console.log(`prepare yourself for battle, Hero!`)
     });
   }
 //2. for the game loop, first draw cards on screen, draw enemy and player on screen.

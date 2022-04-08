@@ -1,5 +1,5 @@
 class Character {
-    constructor(position, health, strength, armor, deck, block, imageSrc, scale = 1, framesMax = 1) {
+    constructor(position, health, strength, armor, deck, block, imageSrc, scaleX = 1, scaleY = 1, framesMax = 1, context) {
         this.position = position;
         this.width = 50;
         this.height = 150;
@@ -10,35 +10,49 @@ class Character {
         this.deck = deck;
         this.image = new Image();
         this.image.src = imageSrc;
-        this.scale = scale;
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
         this.framesMax = framesMax;
         this.framesCurrent = 0;
         this.framesElapsed = 0;
         this.framesHold = 5;
+        this.ctx = context;
     }
 // use conditional to check for if useCard() function is used, animate attack 
     draw() {
-        ctx.drawImage(
+        // this.ctx.drawImage(
+        //     this.image, 
+        //     this.framesCurrent * (this.image.width / this.framesMax),
+        //     0,
+        //     this.image.width / this.framesMax,
+        //     this.image.height,
+        //     this.position.x, 
+        //     this.position.y,
+        //     (this.image.width / this.framesMax) * this.scale,
+        //     this.image.height * this.scale
+        // )
+        console.log(this.image)
+        this.ctx.drawImage(
             this.image, 
-            this.framesCurrent * (this.image.width / this.framesMax),
             0,
-            this.image.width / this.framesMax,
-            this.image.height,
-            this.position.x, 
-            this.position.y,
-            (this,image.width / this.framesMax) * this.scale,
-            this.image.height * this.scale
+            0,
+            100,
+            100,
+            0, 
+            0,
+            100,
+            100
         )
     }
 
     update() {
         this.draw();
         this.framesElapsed++;
-        this.position.x += this.velocity.x;
-
-        if(this.position.y + this.height + this.velocity.x >= 250) {
-            this.velocity.x = 0;
-        }
+        if(this.framesCurrent < this.framesMax) {
+            this.framesCurrent++;
+            } else{ 
+                this.framesCurrent = 0;
+            }
     }
 
     chooseCardFromHand(cardIndexInHand) {
@@ -72,21 +86,23 @@ class Character {
 }
 //jump to 255 for Level class extension of Sprite
 class Sprite {
-    constructor(position, imageSrc, scale = 1, framesMax = 1) {
+    constructor(position, imageSrc, scaleX = 1, scaleY = 1, framesMax = 1, context) {
         this.position = position;
         this.width = 50;
         this.height = 150;
         this.image = new Image();
         this.image.src = imageSrc;
-        this.scale = scale;
+        this.scaleX = scaleX;
+        this.scaleY = scaleY
         this.framesMax = framesMax;
         this.framesCurrent = 0;
         this.framesElapsed = 0;
         this.framesHold = 5;
+        this.ctx = context;
     }
 
     draw() {
-        ctx.drawImage(     
+        this.ctx.drawImage(     
             this.image, 
             this.framesCurrent * (this.image.width / this.framesMax),
             0,
@@ -94,34 +110,50 @@ class Sprite {
             this.image.height,
             this.position.x, 
             this.position.y,
-            (this,image.width / this.framesMax) * this.scale,
-            this.image.height * this.scale
-        ) 
+            (this.image.width / this.framesMax) * this.scaleX,
+            this.image.height * this.scaleY
+        )
+        // this.ctx.fillRect(100, 100, 50, 50) 
     }
 
     update() {
         this.draw();
-        this.framesElapsed++;
+        if(this.framesCurrent < this.framesMax) {
+        this.framesCurrent++;
+        } else{ 
+            this.framesCurrent = 0;
+        }
     }
 }
 
 class Card {
-    constructor(name, position, imageSrc) {
+    constructor(name, position, imageSrc, context) {
         this.name = name;
         this.position = position;
-        this.width = 100;
-        this.height = 150;
+        this.width = 50;
+        this.height = 75;
         this.image = new Image();
         this.image.src = imageSrc;
+        this.ctx = context;
     }
     
     draw() {
-        ctx.drawImage(this.image, this.position.x, this.position.y)
+        ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, this.position.x, this.position.y, this.width, this.height)
     }
 
     update() {
         this.draw();
         this.framesElapsed++;
+        if(this.framesCurrent < this.framesMax) {
+            this.framesCurrent++;
+            } else{ 
+                this.framesCurrent = 0;
+            }
+    }
+
+    setPosition(position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
     }
 
 }
@@ -130,47 +162,46 @@ class Card {
 //found in the game. Later on these can be extended to other types.
 
 class AttackCard extends Card {
-    constructor(name, strength, imageSrc) {
-        super(name, imageSrc)
+    constructor(name, position, strength, imageSrc, context) {
+        super(name, position, imageSrc, context)
         this.strength = strength;
         this.type = 'attack';
     }
 
-    draw(x, y) {
-        ctx.fillStyle = 'white';
-        ctx.fillRect (x, y, this.width, this.height);
-    }
+    // draw(x, y) {
+    //     ctx.fillStyle = 'white';
+    //     ctx.fillRect (x, y, this.width, this.height);
+    // }
 }
 
 class BlockCard extends Card {
-    constructor(name, block, imageSrc) {
-        super(name, imageSrc) 
+    constructor(name, position, block, imageSrc, context) {
+        super(name, position, imageSrc, context) 
         this.block = block;
         this.type = 'block';
     }
 
-    draw(x, y) {
-        ctx.fillStyle = 'white';
-        ctx.fillRect (x, y, this.width, this.height);
-    }
+    // draw(x, y) {
+    //     // ctx.fillStyle = 'white';
+    //     // ctx.fillRect (x, y, this.width, this.height);
+    // }
 }
 
 
 /* our hero character */
 class Hero extends Character {
-    constructor(position, health, strength, armor, energy, deck, block, imageSrc, scale = 1, framesMax = 1) {
-        super(position, health, strength, armor, deck, block, imageSrc, scale, framesMax)
+    constructor(position, health, strength, armor, energy, deck, block, imageSrc, scaleX = 1, scaleY = 1, framesMax = 1, context) {
+        super(position, health, strength, armor, deck, block, imageSrc, scaleX, scaleY, framesMax, context)
         this.energy = energy;
         this.discardPile = [];
         this.hand = [];
-        this.block = block;
         this.framesCurrent = 0;
         this.framesElapsed = 0;
         this.framesHold = 5;
     }
 
     draw() {
-        ctx.drawImage(
+        this.ctx.drawImage(
             this.image, 
             this.framesCurrent * (this.image.width / this.framesMax),
             0,
@@ -178,14 +209,30 @@ class Hero extends Character {
             this.image.height,
             this.position.x, 
             this.position.y,
-            (this.image.width / this.framesMax) * this.scale,
-            this.image.height * this.scale
-        )
+            (this.image.width / this.framesMax) * this.scaleX,
+            this.image.height * this.scaleY
+        )        
+        // this.ctx.drawImage(
+        //     this.image, 
+        //     0,
+        //     0,
+        //     100,
+        //     100,
+        //     0, 
+        //     0,
+        //     100,
+        //     100
+        // )
     }
 
     update() {
         this.draw();
         this.framesElapsed++;
+        if(this.framesCurrent < this.framesMax) {
+            this.framesCurrent++;
+            } else{ 
+                this.framesCurrent = 0;
+            }
     }
     receiveDamage(damage) {
         this.health = this.health - damage;
@@ -243,22 +290,17 @@ class Hero extends Character {
 //Once we can functionally play through one level/set of enemies and succeed in win/losing.
 
 class Enemy extends Character { 
-    constructor(position, health, strength, armor, deck, block, imageSrc, scale = 1, framesMax = 1) {
-        super(position, health, strength, armor, deck, imageSrc, scale, framesMax)
-        this.block = block;
+    constructor(position, health, strength, armor, deck, block, imageSrc, scaleX = 1, scaleY = 1, framesMax = 1, context) {
+        super(position, health, strength, armor, deck, block, imageSrc, scaleX, scaleY, framesMax, context)
         this.hand = [];
         this.discardPile = [];
-        this.image = new Image();
-        this.image.src = imageSrc;
-        this.scale = scale;
-        this.framesMax = framesMax;
         this.framesCurrent = 0;
         this.framesElapsed = 0;
         this.framesHold = 5;
     }
    
     draw() {
-        ctx.drawImage(
+        this.ctx.drawImage(
             this.image, 
             this.framesCurrent * (this.image.width / this.framesMax),
             0,
@@ -266,14 +308,20 @@ class Enemy extends Character {
             this.image.height,
             this.position.x, 
             this.position.y,
-            (this.image.width / this.framesMax) * this.scale,
-            this.image.height * this.scale
+            (this.image.width / this.framesMax) * this.scaleX,
+            this.image.height * this.scaleY
         )
+
     }
 
     update() {
         this.draw();
         this.framesElapsed++;
+        if(this.framesCurrent < this.framesMax) {
+            this.framesCurrent++;
+            } else{ 
+                this.framesCurrent = 0;
+            }
     }
 
     chooseCardFromHand(cardIndexInHand) {
@@ -470,10 +518,14 @@ constructor(hero, enemy) {
 beginBattle() {
         //add text box with this floating text below. Need to look into canvas animation
         // console.log(`prepare yourself for battle, Hero!`)
-    this.Hero.deck.shuffleDeck();
-    this.Hero.draw();
-    this.Enemy.draw();
-    this.activateHeroTurn();
+    this.Hero.image.onload = () => { 
+        this.Enemy.image.onload = () => {
+            this.Hero.draw();
+            this.Enemy.draw();
+            this.Hero.deck.shuffleDeck();
+            this.activateHeroTurn();
+         }
+    }
 }
 
 
@@ -483,8 +535,11 @@ activateHeroTurn() {
 
     //Need to write a function that will check each card from deck, and draw it on the board at each card position #1-5
     this.Hero.hand = this.Hero.deck.pullCardFromDeck(5);
-    this.Hero.hand;
-    console.log(this.Hero.hand);
+    this.Hero.hand.forEach((element, index) => { 
+        element.setPosition({x:135 + index * 65, y:-37})
+        element.draw()
+    })
+
 
 
     window.addEventListener('keydown', (event) => {
