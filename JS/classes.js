@@ -152,14 +152,14 @@ class Sprite {
     update() {
         this.draw();
         // this.animateFrames();
-        this.framesElapsed++;
-        if(this.framesElapsed % this.framesHold === 0) {
-        if(this.framesCurrent < this.framesMax - 1) {
-            this.framesCurrent++;
-            } else{ 
-                this.framesCurrent = 0;
-            }
-        }
+        // this.framesElapsed++;
+        // if(this.framesElapsed % this.framesHold === 0) {
+        // if(this.framesCurrent < this.framesMax - 1) {
+        //     this.framesCurrent++;
+        //     } else{ 
+        //         this.framesCurrent = 0;
+        //     }
+        // }
     }
 }
 
@@ -175,7 +175,7 @@ class Card {
     }
     
     draw() {
-        ctx.drawImage(
+        this.ctx.drawImage(
             this.image, 
             0, 
             0, 
@@ -190,14 +190,14 @@ class Card {
     update() {
         this.draw();
         // this.animateFrames();
-        this.framesElapsed++;
-        if(this.framesElapsed % this.framesHold === 0) {
-        if(this.framesCurrent < this.framesMax - 1) {
-            this.framesCurrent++;
-            } else{ 
-                this.framesCurrent = 0;
-            }
-        }
+        // this.framesElapsed++;
+        // if(this.framesElapsed % this.framesHold === 0) {
+        // if(this.framesCurrent < this.framesMax - 1) {
+        //     this.framesCurrent++;
+        //     } else{ 
+        //         this.framesCurrent = 0;
+        //     }
+        // }
     }
 
     setPosition(position) {
@@ -237,6 +237,7 @@ class Hero extends Character {
         this.framesCurrent = 0;
         this.framesElapsed = 0;
         this.framesHold = 16;
+        this.alerted = false;
     }
 
     draw() {
@@ -277,19 +278,30 @@ class Hero extends Character {
     }
     receiveDamage(damage) {
         this.health = this.health - damage;
-        if(this.health <= 0) {
+        if(this.health <= 0 && this.alerted == false) {
+            this.alerted = true;
             alert(`The fates predicted YOU would not become the Ultimate Dungeon Hero`)
+            window.location.reload();
         } else {
-            console.log(`Not the face! You take ${damage} points of damage. Your HP is now ${this.health}`)
+            console.log(`Not the face! You take ${damage} points of damage. Your life total is now ${this.health}`)
+            let pTag = document.createElement('p')
+            pTag.textContent = `Not the face! You take ${damage} points of damage. Your life total is now ${this.health}`
+            document.querySelector('#hiddenDialogueBox').appendChild(pTag)
         }
     }
 
     gainsBlock(block) {
         this.health = this.health + block;
         if(this.health > 30) {
-            console.log(`You are becoming an impenetrable human fortress! Your HP is now ${this.health}`) 
+            console.log(`You are becoming an impenetrable human fortress! Your life total is now ${this.health}`) 
+            let pTag = document.createElement('p')
+            pTag.textContent = `You are becoming an impenetrable human fortress! Your life total is now ${this.health}`
+            document.querySelector('#hiddenDialogueBox').appendChild(pTag)
         } else {
-            console.log(`suit up or shut up! Your HP is now ${this.health}`)
+            console.log(`suit up or shut up! Your life total is now ${this.health}`)
+            let pTag = document.createElement('p')
+            pTag.textContent = `suit up or shut up! Your life total is now ${this.health}`
+            document.querySelector('#hiddenDialogueBox').appendChild(pTag)
         }
     }
 
@@ -345,6 +357,7 @@ class Enemy extends Character {
         this.framesCurrent = 0;
         this.framesElapsed = 0;
         this.framesHold = 16;
+        this.alerted = false;
     }
    
     draw() {
@@ -391,13 +404,18 @@ class Enemy extends Character {
 
     receiveDamage(damage) {
         this.health = this.health - damage;
-        if(this.health <= 0) {
+        if(this.health <= 0 && this.alerted == false) {
+            this.alerted = true;
             alert(`YOU have S L A I N the enemy. You have been rightfully crowned the Ultimate Dungeon Hero!`);
+            window.location.reload();
         } else {
             // heroAttacksLine.classList.remove('hidden').setTimeout(() => {
             //     heroAttacksLine.classList.add('hidden')
             // }, 4000);
             // console.log(`You have attacked The skeleton for ${damage} damage! Skeleton's HP is now ${this.health}`)
+            let pTag = document.createElement('p')
+            pTag.textContent = `You have attacked The skeleton for ${damage} damage! Skeleton's life total is now ${this.health}`
+            document.querySelector('#hiddenDialogueBox').appendChild(pTag)
         } 
 
     }
@@ -406,8 +424,14 @@ class Enemy extends Character {
         this.health = this.health + block;
         if(this.health > 30) {
             console.log(`What are you doing Hero? The enemy is near invincible! Skeleton's HP is now ${this.health}`)
+            let pTag = document.createElement('p')
+            pTag.textContent = `What are you doing Hero? The enemy is near invincible! Skeleton's life total is now ${this.health}`
+            document.querySelector('#hiddenDialogueBox').appendChild(pTag)
         } else {
-            console.log(`The skeleton is plotting your demise! Skeleton's HP is now ${this.health}`)
+            console.log(`The skeleton is plotting your demise! Skeleton's life total is now ${this.health}`)
+            let pTag = document.createElement('p')
+            pTag.textContent = `The skeleton is plotting your demise! Skeleton's life total is now ${this.health}`
+            document.querySelector('#hiddenDialogueBox').appendChild(pTag)
         }
     }
 
@@ -520,74 +544,9 @@ class Deck {
 
     update() {
         this.draw();
-        this.framesElapsed++;
-        if(this.framesElapsed % this.framesHold === 0) {
-        if(this.framesCurrent < this.framesMax - 1) {
-            this.framesCurrent++;
-            } else{ 
-                this.framesCurrent = 0;
-            }
-        }
-    }
-  
+}
 }
 
-// class EnemyDeck extends Deck {
-//        constructor() {
-//         this.cards = [
-//             attack1, 
-//             block1
-//         ];
-//     }
-    
-//     createDeck() {
-//       return this.cards;   
-//         /* This function will create a new deck, 
-//         comprised of a combination of our cards, when the game is initialized. */
-//     }
-
-//     shuffleDeck () {
-//         let newShuffledCardsArray = this.cards;
-//         let currentIndex = newShuffledCardsArray.length,  randomIndex;
-      
-//         // While there remain elements to shuffle...
-//         while (currentIndex != 0) {
-      
-//           // Pick a remaining element...
-//           randomIndex = Math.floor(Math.random() * currentIndex);
-//           currentIndex--;
-      
-//           // And swap it with the current element.
-//           [newShuffledCardsArray[currentIndex], 
-//            newShuffledCardsArray[randomIndex]] =
-//           [newShuffledCardsArray[randomIndex], 
-//            newShuffledCardsArray[currentIndex]];
-//         }
-      
-//         return newShuffledCardsArray;
-//         console.log(newShuffledCardsArray)
-//       }
-//     // shuffleDeck() {
-//     //     let shuffle;
-//     //     let newShuffledCardsArray = this.cards;
-//     //     for (let i = 0; i < this.cards.length; i++) {
-//     //         shuffle = Math.floor((Math.random() * this.cards.length));
-//     //         return shuffle;
-//     //     /* This function will shuffle the deck anytime we start a new level, 
-//     //     based on an event listener 'click' on 'new level' */
-//     //     }
-//     // }
-// }
-
-//1. create 2 decks, 1 enemy and 1 hero. the enemy should have its own deck, 
-//the hero should have its own deck(in its constructor).
-//2. for the game loop, first draw cards on screen, draw enemy and player on screen.
-//3. add eventlistener attached to mouse click relative to it's position on canvas. 
-//3A. check if eventlistener clicks on another card or end turn button, skipping 
-//when clicked it plays cards' effect on enemy and subtracts hero energy, then deletes card from hand.
-//4. create a separate event listener on end turn button, that triggers enemy to randomly select a card of its own and play it. 
-//5. After enemy plays 1 card, end enemy turn. Draw new card from player deck and re-draw all player cards on screen.
-//6. translate canvas dimensions relative to browser dimensions because mouse events are based on browser dimensions.
 
 class Battle {
 constructor(hero, enemy) {
@@ -595,21 +554,17 @@ constructor(hero, enemy) {
     this.Enemy = enemy;
     this.Hero.deck.shuffleDeck();
 }
-// addHero() {
-//     this.Hero.draw();
-// }
 
-// addEnemy() {
-//     this.Enemy.draw();
-// }
 
 beginBattle() {
-        //add text box with this floating text below. Need to look into canvas animation
-        // console.log(`prepare yourself for battle, Hero!`)
+
+        let pTag = document.createElement('p')
+        pTag.textContent = `Get ready, Hero! Only one will claim victory.`;
+        document.querySelector('#hiddenDialogueBox').appendChild(pTag);
     this.Hero.image.onload = () => { 
         this.Enemy.image.onload = () => {
-            this.Hero.draw();
-            this.Enemy.draw();
+            // this.Hero.draw();
+            // this.Enemy.draw();
             this.Hero.deck.shuffleDeck();
             this.activateHeroTurn();
          }
@@ -620,14 +575,16 @@ beginBattle() {
 activateHeroTurn() {
         //add text box with this floating text below. Need to look into canvas animation
         console.log(`It is your turn, Hero! Choose wisely...`)
-
+        let pTag = document.createElement('p')
+        pTag.textContent = `It is your turn. Choose wisely...`
+        document.querySelector('#hiddenDialogueBox').appendChild(pTag)
     //Need to write a function that will check each card from deck, and draw it on the board at each card position #1-5
     this.Hero.hand = this.Hero.deck.pullCardFromDeck(5);
     console.log(this.Hero.hand)
-    this.Hero.hand.forEach((element, index) => { 
-        element.setPosition(0 + index * 65, 0);
-        element.draw();
-    })
+    // this.Hero.hand.forEach((element, index) => { 
+    //     element.setPosition(0 + index * 65, 0);
+    //     element.draw();
+    // })
 
 
 
@@ -680,6 +637,9 @@ activateHeroTurn() {
 
 activateEnemyTurn(){
     console.log(`it is the enemy's turn to act!`)
+    let pTag = document.createElement('p')
+    pTag.textContent = `it is the enemy's turn to act!`
+    document.querySelector('#hiddenDialogueBox').appendChild(pTag)
    this.Enemy.deck.shuffleDeck();
 //Enemy turn is fully automated, can be attached to endTurn() event listener for Hero's turn.
    this.Enemy.hand = this.Enemy.deck.pullCardFromDeck(5);
