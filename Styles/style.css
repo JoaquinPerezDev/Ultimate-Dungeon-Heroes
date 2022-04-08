@@ -1,9 +1,13 @@
+@font-face {
+  font-family: 'CursedScript';
+  src: url(../Font/CursedScript-Bold.ttf);
+}
 
 body {
+    background-image: url('../Images/Blood moon.png');
     background-color: black;
     background-repeat: no-repeat;
     background-size: cover;
-    font-family: 'UnifrakturCook', cursive;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,7 +19,7 @@ canvas {
 
   h1 {
     text-align: center;
-    color: #d6cbab;
+    color: #d6abd5;
     font-size: 48px;
     flex-shrink: 0;
     display: flex;
@@ -26,14 +30,13 @@ canvas {
   justify-content: center;
   border-radius: 50%; 
   display: flex;
+  font-family: 'UnifrakturCook', cursive;
 }
   .container {
     display: flex;
     width: 400px;
     margin: 20px auto;
-    display: flex;
     justify-content: center;
-
   }
 
   #start-game-button {
@@ -44,40 +47,57 @@ canvas {
     flex-shrink: 0;
   }
 
-  #end-turn-button {
-    font-family: 'UnifrakturCook', cursive;
-    font-size: 24px;
-    border-radius: 20%;
-  }
-
  #game-area {
-   
-   background-color: #8a7171;
-   font-family: 'UnifrakturCook', cursive;
+   border-radius: 8%;
+   border-style: solid;
  }
 
  #canvas-container {
    text-align: center;
    width: 100%;
+   display: inline-block;
+   position: relative;
  }
 
- .hero-health-bar {
-   background-color: grey;
-   position: absolute;
-   width: 70px;
-   height: 10px;
-   margin-top: 31.4%;
-   margin-left: 32.5%;
+  .health-bar {
+    background-color: #8a7171;
+    position: absolute;
+    width: 70px;
+  }
+
+  h6 {
+    font-size: 9px;
+    font-family: 'UnifrakturCook', cursive;
+    margin: 0;
+    border-style: ridge;
+  }
+
+ #heroHealth {
+   margin-top: 32.2%;
+   margin-left: 33%;
  }
 
- .enemy-health-bar {
-  background-color: grey;
-  position: absolute;
-  width: 70px;
-  height: 10px;
-  margin-top: 31.2%;
-  margin-left: 59%;
+ #enemyHealth {
+  margin-top: 32.2%;
+  margin-left: 61%;
 }
+
+
+.dialogue {
+  font-family: 'UnifrakturCook', cursive;
+}
+  .dialogue-box {
+  background-color: #8a7171;
+  width: 250px;
+  height: 100px;
+  position: absolute;
+  margin: 2%;
+  top: 300px;
+  left: 280px;
+  border-radius: 12%;
+  border-style: groove;
+  display: flex;
+  }
 
  .hidden {
    display: none;

@@ -22,11 +22,26 @@
       <button id="start-game-button">Begin if you dare!</button>
     </div>
     <div id="canvas-container">
-      <div>
-        <div class="hero-health-bar"></div>
-        <div class="enemy-health-bar"></div>
-      </div>
+        <div id="enemyHealth" class="hidden health-bar"> 
+          <h6 class="hidden health-bar">22/22</h6>
+        </div>
+        <div id="heroHealth" class="hidden health-bar">
+          <h6 class="hidden health-bar">30/30</h6>
+        </div>
       <canvas id="game-area"></canvas>
+      <div id="hiddenDialogueBox" class="dialogue-box">
+        <h1 id="beginBattle" class ="dialogue hidden">Get ready, Hero! Only one will claim victory</h1>
+        <h1 id="gameOver" class ="dialogue hidden">The fates predicted YOU would not become the Ultimate Dungeon Hero</h1>
+        <h1 id="heroTakesDamage" class ="dialogue hidden">Not the face! You take 5 points of damage.</h1>
+        <h3 id="heroHeals" class ="dialogue hidden">You are becoming an impenetrable human fortress! You gained 4 health</h3>
+        <h1 id="heroGainsBlock" class ="dialogue hidden">Suit up or shut up! You gained 4 health</h1>
+        <h1 id="heroBecomesHero" class ="dialogue hidden">YOU have S L A I N the enemy. You have been rightfully crowned the Ultimate Dungeon Hero!</h1>
+        <h1 id="heroAttacks" class ="dialogue hidden">You have attacked The skeleton for 6 damage!</h1>
+        <h1 id="skeletonHeals" class ="dialogue hidden">You're sleeping on the job. The skeleton now has more HP than he started with!</h1>
+        <h1 id="skeletonGainsBlock" class ="dialogue hidden">The skeleton is plotting your demise. "Measure twice, cut once!" he says.</h1>
+        <h1 id="heroTurn" class ="dialogue hidden">It is your turn, Hero! Choose wisely...</h1>
+        <h1 id="enemyTurn" class ="dialogue hidden">It is the enemy's turn to act!</h1>
+      </div>
     </div>
       <!-- <div class="container" id="button-container">
         <button id="end-turn-button" class="hidden">End Turn</button>

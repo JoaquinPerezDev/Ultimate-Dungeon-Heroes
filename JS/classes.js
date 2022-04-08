@@ -1,3 +1,12 @@
+
+// function callHeroAttacks() {
+//     heroAttacksLine.classList.remove('hidden').setTimeout(() => {
+//         heroAttacksLine.classList.add('hidden')
+//     }, 4000)
+// }
+// console.log(callHeroAttacks())
+
+
 class Character {
     constructor(position, health, strength, armor, deck, block, imageSrc, scaleX = 1, scaleY = 1, framesMax = 1, context) {
         this.position = position;
@@ -383,9 +392,12 @@ class Enemy extends Character {
     receiveDamage(damage) {
         this.health = this.health - damage;
         if(this.health <= 0) {
-            alert(`YOU have S L A I N the enemy. You have been rightfully crowned the Ultimate Dungeon Hero!`)
+            alert(`YOU have S L A I N the enemy. You have been rightfully crowned the Ultimate Dungeon Hero!`);
         } else {
-            console.log(`The skeleton has been attacked for ${damage} damage! Skeleton's HP is now ${this.health}`)
+            // heroAttacksLine.classList.remove('hidden').setTimeout(() => {
+            //     heroAttacksLine.classList.add('hidden')
+            // }, 4000);
+            // console.log(`You have attacked The skeleton for ${damage} damage! Skeleton's HP is now ${this.health}`)
         } 
 
     }
@@ -402,16 +414,13 @@ class Enemy extends Character {
     useCard(card, target) {
         //apply card's effect here. 
         
-        console.log(card)
         if(card.type === 'attack') {
             target.receiveDamage(this.strength);
         }
         //if(card.type === 'attack') {
         // 
         if(card.type === 'block') {
-            console.log(this.health)
             this.gainsBlock(this.block);
-            console.log(this.health)
         }
 
         this.energy--; //this.energy -= this.cardEnergy;
@@ -616,7 +625,7 @@ activateHeroTurn() {
     this.Hero.hand = this.Hero.deck.pullCardFromDeck(5);
     console.log(this.Hero.hand)
     this.Hero.hand.forEach((element, index) => { 
-        element.setPosition(135 + index * 65, -37);
+        element.setPosition(0 + index * 65, 0);
         element.draw();
     })
 
@@ -659,7 +668,7 @@ activateHeroTurn() {
                 console.log(this.Hero.hand, chosenCard4, this.Hero.discardPile, this.Hero.energy);
                 }
                 break;
-            case 'n':
+            case 't':
                 this.Hero.endTurn();
                 this.activateEnemyTurn();
                 break;  

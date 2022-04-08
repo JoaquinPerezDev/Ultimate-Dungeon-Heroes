@@ -5,7 +5,23 @@ canvas.height = 288
 
 const ctx = canvas.getContext('2d');
 
+ctx.fillStyle = 'black';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+const beginBattleLine = document.getElementById('beginBattle');
+const gameOverLine = document.getElementById('gameOverLine');
+const heroTakesDamageLine = document.getElementById('heroTakesDamage');
+const heroHealsLine = document.getElementById('heroHeals');
+const heroGainsBlockLine = document.getElementById('heroGainsBlock');
+const heroBecomesHeroLine = document.getElementById('heroBecomesHero');
+const heroAttacksLine = document.getElementById('heroAttacksLine');
+const skeletonHealsLine = document.getElementById('skeletonHeals');
+const skeletonGainsBlockLine = document.getElementById('skeletonGainsBlock');
+const heroTurnLine = document.getElementById('heroTurn');
+const enemyTurnLine = document.getElementById('enemyTurn');
+const hiddenDialogueBox = document.getElementById('hiddenDialogueBox');
+const healthBars = document.getElementsByClassName('health-bar');
+const splitsElement = document.getElementById('splits');
 
 //Create character class, which will then extend to hero and enemies. 
 const background = new Sprite(
@@ -55,7 +71,6 @@ const endGameAlert = document.getElementById('start-game-button');
 
 if (startGameButton) {
     startGameButton.addEventListener('click', event => {
-
         // ctx.fillRect(0, 0, canvas.width, canvas.height)
         // ctx.fillStyle = 'white';
         // ctx.fillText('UI PLACEMENT LEGEND', 50, 50)
@@ -95,12 +110,12 @@ if (startGameButton) {
 
         //our skeleton baddies
         const skeleton1 = new Enemy(
-            {x: 285, y: 110}, 
+            {x: 285, y: 115}, 
             22, 
             5, 
             0, 
             new Deck(), 
-            4,
+            0,
             './Images/skeleton spritesheets/skeleton idle spritesheet.png',
             1.5, 
             1.5, 
@@ -118,8 +133,9 @@ if (startGameButton) {
 
         let newBattle = new Battle(player, skeleton1);
         background.draw();
-        newBattle.beginBattle();
         animate()
+        newBattle.beginBattle();
+
         // console.log(`prepare yourself for battle, Hero!`)
     });
   }
