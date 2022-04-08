@@ -27,30 +27,31 @@ const background = new Sprite(
 //for every single card included in the starting deck. This may change once
 //I can figure out how to create more efficient code.
 //                               name, strength, cardNumber
-const attack1 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
+const attack1 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/ATTACK! V2.png', ctx)
 
-const attack2 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
+const attack2 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/ATTACK! V2.png', ctx)
 
-const attack3 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
+const attack3 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/ATTACK! V2.png', ctx)
 
-const attack4 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
+const attack4 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/ATTACK! V2.png', ctx)
 
-const attack5 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
+const attack5 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/ATTACK! V2.png', ctx)
 
-const attack6 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/Attack card.png', ctx)
+const attack6 = new AttackCard ('Slice & dice!', {x:0, y:0}, 6, './Images/Cards/ATTACK! V2.png', ctx)
 
-const block1 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/Block card.png', ctx)
+const block1 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/BLOCK V2.png', ctx)
 
-const block2 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/Block card.png', ctx)
+const block2 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/BLOCK V2.png', ctx)
 
-const block3 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/Block card.png', ctx)
+const block3 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/BLOCK V2.png', ctx)
 
-const block4 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/Block card.png', ctx)
+const block4 = new BlockCard ('Suit up!', {x:0, y:0}, 4, './Images/Cards/BLOCK V2.png', ctx)
 
 //Battle sequence function invoking and event listeners below here
 
 const startGameButton = document.getElementById('start-game-button');
 // const endTurnButton = document.getElementById('end-turn-button');
+const endGameAlert = document.getElementById('start-game-button');
 
 if (startGameButton) {
     startGameButton.addEventListener('click', event => {
@@ -108,9 +109,7 @@ if (startGameButton) {
         );
 
         function animate(){
-            ctx.requestAnimationFrame(animate);
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            window.requestAnimationFrame(animate);
             background.update();
             player.update();
             skeleton1.update();

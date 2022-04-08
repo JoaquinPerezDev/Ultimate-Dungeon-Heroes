@@ -66,8 +66,8 @@ canvas {
    position: absolute;
    width: 70px;
    height: 10px;
-   margin-top: 23%;
-   margin-left: 57%;
+   margin-top: 31.4%;
+   margin-left: 32.5%;
  }
 
  .enemy-health-bar {
@@ -75,8 +75,8 @@ canvas {
   position: absolute;
   width: 70px;
   height: 10px;
-  margin-top: 23.2%;
-  margin-left: 37%;
+  margin-top: 31.2%;
+  margin-left: 59%;
 }
 
  .hidden {

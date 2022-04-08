@@ -15,44 +15,57 @@ class Character {
         this.framesMax = framesMax;
         this.framesCurrent = 0;
         this.framesElapsed = 0;
-        this.framesHold = 5;
+        this.framesHold = 16;
         this.ctx = context;
     }
 // use conditional to check for if useCard() function is used, animate attack 
     draw() {
-        // this.ctx.drawImage(
-        //     this.image, 
-        //     this.framesCurrent * (this.image.width / this.framesMax),
-        //     0,
-        //     this.image.width / this.framesMax,
-        //     this.image.height,
-        //     this.position.x, 
-        //     this.position.y,
-        //     (this.image.width / this.framesMax) * this.scale,
-        //     this.image.height * this.scale
-        // )
-        console.log(this.image)
         this.ctx.drawImage(
             this.image, 
+            this.framesCurrent * (this.image.width / this.framesMax),
             0,
-            0,
-            100,
-            100,
-            0, 
-            0,
-            100,
-            100
+            this.image.width / this.framesMax,
+            this.image.height,
+            this.position.x, 
+            this.position.y,
+            (this.image.width / this.framesMax) * this.scaleX,
+            this.image.height * this.scaleY
         )
+        // console.log(this.image)
+        // this.ctx.drawImage(
+        //     this.image, 
+        //     0,
+        //     0,
+        //     100,
+        //     100,
+        //     0, 
+        //     0,
+        //     100,
+        //     100
+        // )
     }
 
-    update() {
-        this.draw();
+    animateFrames() {
         this.framesElapsed++;
+        if(this.framesElapsed % this.framesHold === 0) {
         if(this.framesCurrent < this.framesMax) {
             this.framesCurrent++;
             } else{ 
                 this.framesCurrent = 0;
             }
+        }
+    }
+    update() {
+        this.draw();
+        this.animateFrames();
+        this.framesElapsed++;
+        if(this.framesElapsed % this.framesHold === 0) {
+        if(this.framesCurrent < this.framesMax - 1) {
+            this.framesCurrent++;
+            } else{ 
+                this.framesCurrent = 0;
+            }
+        }
     }
 
     chooseCardFromHand(cardIndexInHand) {
@@ -97,7 +110,7 @@ class Sprite {
         this.framesMax = framesMax;
         this.framesCurrent = 0;
         this.framesElapsed = 0;
-        this.framesHold = 5;
+        this.framesHold = 8;
         this.ctx = context;
     }
 
@@ -116,12 +129,27 @@ class Sprite {
         // this.ctx.fillRect(100, 100, 50, 50) 
     }
 
+    // animateFrames() {
+    //     this.framesElapsed++;
+    //     if(this.framesElapsed % this.framesHold === 0) {
+    //     if(this.framesCurrent < this.framesMax) {
+    //         this.framesCurrent++;
+    //         } else{ 
+    //             this.framesCurrent = 0;
+    //         }
+    //     }
+    // }
+
     update() {
         this.draw();
-        if(this.framesCurrent < this.framesMax) {
-        this.framesCurrent++;
-        } else{ 
-            this.framesCurrent = 0;
+        // this.animateFrames();
+        this.framesElapsed++;
+        if(this.framesElapsed % this.framesHold === 0) {
+        if(this.framesCurrent < this.framesMax - 1) {
+            this.framesCurrent++;
+            } else{ 
+                this.framesCurrent = 0;
+            }
         }
     }
 }
@@ -138,17 +166,29 @@ class Card {
     }
     
     draw() {
-        ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, this.position.x, this.position.y, this.width, this.height)
+        ctx.drawImage(
+            this.image, 
+            0, 
+            0, 
+            this.image.width, 
+            this.image.height, 
+            this.position.x, 
+            this.position.y, 
+            this.width, 
+            this.height)
     }
 
     update() {
         this.draw();
+        // this.animateFrames();
         this.framesElapsed++;
-        if(this.framesCurrent < this.framesMax) {
+        if(this.framesElapsed % this.framesHold === 0) {
+        if(this.framesCurrent < this.framesMax - 1) {
             this.framesCurrent++;
             } else{ 
                 this.framesCurrent = 0;
             }
+        }
     }
 
     setPosition(position) {
@@ -167,11 +207,6 @@ class AttackCard extends Card {
         this.strength = strength;
         this.type = 'attack';
     }
-
-    // draw(x, y) {
-    //     ctx.fillStyle = 'white';
-    //     ctx.fillRect (x, y, this.width, this.height);
-    // }
 }
 
 class BlockCard extends Card {
@@ -180,11 +215,6 @@ class BlockCard extends Card {
         this.block = block;
         this.type = 'block';
     }
-
-    // draw(x, y) {
-    //     // ctx.fillStyle = 'white';
-    //     // ctx.fillRect (x, y, this.width, this.height);
-    // }
 }
 
 
@@ -197,7 +227,7 @@ class Hero extends Character {
         this.hand = [];
         this.framesCurrent = 0;
         this.framesElapsed = 0;
-        this.framesHold = 5;
+        this.framesHold = 16;
     }
 
     draw() {
@@ -212,27 +242,29 @@ class Hero extends Character {
             (this.image.width / this.framesMax) * this.scaleX,
             this.image.height * this.scaleY
         )        
-        // this.ctx.drawImage(
-        //     this.image, 
-        //     0,
-        //     0,
-        //     100,
-        //     100,
-        //     0, 
-        //     0,
-        //     100,
-        //     100
-        // )
     }
 
-    update() {
-        this.draw();
+    animateFrames(){
         this.framesElapsed++;
+        if(this.framesElapsed % this.framesHold === 0) {
         if(this.framesCurrent < this.framesMax) {
             this.framesCurrent++;
             } else{ 
                 this.framesCurrent = 0;
             }
+        }
+    }
+    update() {
+        this.draw();
+        this.animateFrames();
+        this.framesElapsed++;
+        if(this.framesElapsed % this.framesHold === 0) {
+        if(this.framesCurrent < this.framesMax - 1) {
+            this.framesCurrent++;
+            } else{ 
+                this.framesCurrent = 0;
+            }
+        }
     }
     receiveDamage(damage) {
         this.health = this.health - damage;
@@ -250,6 +282,11 @@ class Hero extends Character {
         } else {
             console.log(`suit up or shut up! Your HP is now ${this.health}`)
         }
+    }
+
+    setPosition(position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
     }
 
     useCard(card, target) {
@@ -271,6 +308,8 @@ class Hero extends Character {
         this.discardPile.push(card);
 
     }
+
+
 
     endTurn() {
        let remainingHand = this.hand.splice(0, this.hand.length);
@@ -296,7 +335,7 @@ class Enemy extends Character {
         this.discardPile = [];
         this.framesCurrent = 0;
         this.framesElapsed = 0;
-        this.framesHold = 5;
+        this.framesHold = 16;
     }
    
     draw() {
@@ -314,14 +353,27 @@ class Enemy extends Character {
 
     }
 
-    update() {
-        this.draw();
+    animateFrames(){
         this.framesElapsed++;
+        if(this.framesElapsed % this.framesHold === 0) {
         if(this.framesCurrent < this.framesMax) {
             this.framesCurrent++;
             } else{ 
                 this.framesCurrent = 0;
             }
+        }
+    }
+    update() {
+        this.draw();
+        this.animateFrames();
+        this.framesElapsed++;
+        if(this.framesElapsed % this.framesHold === 0) {
+        if(this.framesCurrent < this.framesMax - 1) {
+            this.framesCurrent++;
+            } else{ 
+                this.framesCurrent = 0;
+            }
+        }
     }
 
     chooseCardFromHand(cardIndexInHand) {
@@ -441,6 +493,33 @@ class Deck {
         } 
         return cardsDrawnArray;
     }
+
+    draw() {
+        this.ctx.drawImage(
+            this.image, 
+            this.framesCurrent * (this.image.width / this.framesMax),
+            0,
+            this.image.width / this.framesMax,
+            this.image.height,
+            this.position.x, 
+            this.position.y,
+            (this.image.width / this.framesMax) * this.scaleX,
+            this.image.height * this.scaleY
+        )
+
+    }
+
+    update() {
+        this.draw();
+        this.framesElapsed++;
+        if(this.framesElapsed % this.framesHold === 0) {
+        if(this.framesCurrent < this.framesMax - 1) {
+            this.framesCurrent++;
+            } else{ 
+                this.framesCurrent = 0;
+            }
+        }
+    }
   
 }
 
@@ -535,9 +614,10 @@ activateHeroTurn() {
 
     //Need to write a function that will check each card from deck, and draw it on the board at each card position #1-5
     this.Hero.hand = this.Hero.deck.pullCardFromDeck(5);
+    console.log(this.Hero.hand)
     this.Hero.hand.forEach((element, index) => { 
-        element.setPosition({x:135 + index * 65, y:-37})
-        element.draw()
+        element.setPosition(135 + index * 65, -37);
+        element.draw();
     })
 
 
@@ -579,7 +659,7 @@ activateHeroTurn() {
                 console.log(this.Hero.hand, chosenCard4, this.Hero.discardPile, this.Hero.energy);
                 }
                 break;
-            case ' ':
+            case 'n':
                 this.Hero.endTurn();
                 this.activateEnemyTurn();
                 break;  
