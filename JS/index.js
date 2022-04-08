@@ -112,6 +112,8 @@ if (startGameButton) {
                 element.update();
             })
             window.requestAnimationFrame(animate);
+            let elem = document.getElementById('hiddenDialogueBox');
+            elem.scrollTop = elem.scrollHeight;
         }
         rulesElement.classList.add('hidden');
         let newBattle = new Battle(player, skeleton1);
