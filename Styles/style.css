@@ -1,7 +1,4 @@
-@font-face {
-  font-family: 'CursedScript';
-  src: url(../Font/CursedScript-Bold.ttf);
-}
+
 
 body {
     background-image: url('../Images/Blood moon.png');
@@ -20,7 +17,7 @@ canvas {
   h1 {
     text-align: center;
     color: #d6abd5;
-    font-size: 48px;
+    font-size: 24px;
     flex-shrink: 0;
     display: flex;
   }
@@ -30,7 +27,7 @@ canvas {
   justify-content: center;
   border-radius: 50%; 
   display: flex;
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Press Start 2P', cursive;
 }
   .container {
     display: flex;
@@ -40,8 +37,8 @@ canvas {
   }
 
   #start-game-button {
-    font-family: 'UnifrakturCook', cursive;
-    font-size: 24px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 18px;
     border-radius: 20%;
     background-color: #8a7171;
     flex-shrink: 0;
@@ -67,7 +64,7 @@ canvas {
 
   h6 {
     font-size: 9px;
-    font-family: 'UnifrakturCook', cursive;
+    font-family: 'Press Start 2P', cursive;    
     margin: 0;
     border-style: ridge;
   }
@@ -84,20 +81,21 @@ canvas {
 
 
 .dialogue {
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
 }
   
 .dialogue-box {
   background-color: #8a7171;
-  width: 250px;
-  height: 275px;
+  width: 450px;
+  height: 300px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 12%;
   border-style: groove;
   text-align: center;
   overflow: scroll;
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Press Start 2P', cursive;
   }
 
  .hidden {
